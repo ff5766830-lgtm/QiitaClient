@@ -1,4 +1,4 @@
-package com.example.qittaclient.dagger
+package com.example.qiitaclient.dagger
 
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
@@ -24,7 +24,7 @@ class ClientMoudule {
     @Provides
     @Singleton
     fun provideRetrofit(gson: Gson): Retrofit = Retrofit.Builder()
-        .baseUrl("https://qitta.com")
+        .baseUrl("https://qiita.com")
         .addConverterFactory(GsonConverterFactory.create(gson))
         .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
         .build()

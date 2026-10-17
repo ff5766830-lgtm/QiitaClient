@@ -32,13 +32,19 @@ import com.example.qiitaclient.model.Article
 import com.example.qiitaclient.ui.theme.QiitaClientTheme
 import com.example.qiitaclient.view.ArticleView
 import com.example.qiitaclient.model.User
+import javax.inject.Inject
 
 
 
 
 class MainActivity : RxAppCompatActivity() {
+
+    @Inject
+    lateinit var articleClient: ArticleClient
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        (application as QittaClientApp).component.inject(this)
         setContentView(R.layout.activity_main)
 
 
@@ -54,15 +60,17 @@ class MainActivity : RxAppCompatActivity() {
             startActivity(intent)
         }
 
-        val gson = GsonBuilder()
-            .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-            .create()
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://qiita.com")
-            .addConverterFactory(GsonConverterFactory.create(gson))
-            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-            .build()
-        val articleClient = retrofit.create(ArticleClient::class.java)
+        if (!::articleClient.isInitialized) {
+            val gson = GsonBuilder()
+                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                .create()
+            val retrofit = Retrofit.Builder()
+                .baseUrl("https://qiita.com")
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
+                .build()
+            articleClient = retrofit.create(ArticleClient::class.java)
+        }
 
         searchButton.setOnClickListener {
             progressBar.visibility = View.VISIBLE

@@ -36,6 +36,17 @@ android {
     buildFeatures {
         compose = true
     }
+
+    sourceSets {
+        getByName("debug") {
+            java.srcDir("build/generated/ksp/debug/java")
+            kotlin.srcDir("build/generated/ksp/debug/kotlin")
+        }
+        getByName("release") {
+            java.srcDir("build/generated/ksp/release/java")
+            kotlin.srcDir("build/generated/ksp/release/kotlin")
+        }
+    }
 }
 
 dependencies {
@@ -76,6 +87,7 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation("androidx.test:rules:1.7.0")
+    androidTestImplementation("org.mockito:mockito-android:5.11.0")
     debugImplementation(libs.androidx.compose.ui.test.manifest)
     debugImplementation(libs.androidx.compose.ui.tooling)
 }
