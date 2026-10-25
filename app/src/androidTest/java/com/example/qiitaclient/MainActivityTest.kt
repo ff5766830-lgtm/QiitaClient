@@ -34,7 +34,7 @@ class MainActivityTest {
     @Test
     fun 各ビューが表示されていること_ただしプログレスバーは非表示() {
         onView(withId(R.id.list_view)).check(matches(isDisplayed()))
-        onView(withId(R.id.query_esit_text)).check(matches(isDisplayed()))
+        onView(withId(R.id.query_edit_text)).check(matches(isDisplayed()))
         onView(withId(R.id.search_button)).check(matches(isDisplayed()))
 
         onView(withId(R.id.progress_bar)).check(matches(isNotDisplayed()))
@@ -47,7 +47,7 @@ class MainActivityTest {
         }
         activityTestRule.activity.articleClient = articleClient
         
-        onView(withId(R.id.query_esit_text)).perform(typeText("user:ngsw_taro"))
+        onView(withId(R.id.query_edit_text)).perform(typeText("user:ngsw_taro"))
         onView(withId(R.id.search_button)).perform(click())
         
         verify(articleClient).search("user:ngsw_taro")

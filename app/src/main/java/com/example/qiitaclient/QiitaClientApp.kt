@@ -4,7 +4,7 @@ import android.app.Application
 import com.example.qiitaclient.dagger.AppComponent
 import com.example.qiitaclient.dagger.DaggerAppComponent
 
-class QittaClientApp : Application() {
+class QiitaClientApp : Application() {
 
     val component: AppComponent by lazy {
         DaggerAppComponent.create()

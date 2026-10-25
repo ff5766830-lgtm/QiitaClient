@@ -8,12 +8,11 @@ import dagger.Provides
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import com.example.qiitaclient.ArticleActivity
 import com.example.qiitaclient.client.ArticleClient
 import javax.inject.Singleton
 
 @Module
-class ClientMoudule {
+class ClientModule {
 
     @Provides
     @Singleton

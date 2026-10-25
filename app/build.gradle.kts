@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+    id("kotlin-parcelize")
     id("com.google.devtools.ksp")
 }
 
@@ -63,6 +64,8 @@ dependencies {
 
     implementation("com.google.dagger:dagger:2.51.1")
     ksp("com.google.dagger:dagger-compiler:2.51.1")
+
+    implementation("org.jetbrains.kotlin:kotlin-parcelize-runtime:2.2.10")
 
     
     implementation(platform(libs.androidx.compose.bom))
