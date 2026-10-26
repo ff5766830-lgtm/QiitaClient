@@ -3,17 +3,25 @@ package com.example.qiitaclient
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.webkit.WebView
-import android.widget.ListView
-import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Scaffold
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.content.IntentCompat
 import com.example.qiitaclient.model.Article
-import com.example.qiitaclient.view.ArticleView
+import com.example.qiitaclient.ui.theme.QiitaClientTheme
+import com.example.qiitaclient.view.ArticleItem
 
-class ArticleActivity : AppCompatActivity() {
+class ArticleActivity : ComponentActivity() {
 
     companion object {
-
         private const val ARTICLE_EXTRA: String = "article"
 
         fun intent(context: Context, article: Article): Intent =
@@ -23,14 +31,33 @@ class ArticleActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_article)
+        enableEdgeToEdge()
 
-        val articleView = findViewById(R.id.article_view) as ArticleView
-        val webView = findViewById(R.id.web_view) as WebView
+        val article: Article? = IntentCompat.getParcelableExtra(intent, ARTICLE_EXTRA, Article::class.java)
 
-        val article: Article = androidx.core.content.IntentCompat.getParcelableExtra(intent, ARTICLE_EXTRA, Article::class.java)!!
-        articleView.setArticle(article)
-        webView.loadUrl(article.url)
-
+        setContent {
+            QiitaClientTheme {
+                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(innerPadding)
+                    ) {
+                        article?.let {
+                            ArticleItem(article = it, onClick = {})
+                            HorizontalDivider()
+                            AndroidView(
+                                factory = { context ->
+                                    WebView(context).apply {
+                                        loadUrl(it.url)
+                                    }
+                                },
+                                modifier = Modifier.fillMaxSize()
+                            )
+                        }
+                    }
+                }
+            }
+        }
     }
 }

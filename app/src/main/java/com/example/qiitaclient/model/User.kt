@@ -5,17 +5,21 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class User (val id: String,
-                 val name: String,
-                 val profileImageUrl: String) : Parcelable {
+data class User(
+    val id: String,
+    val name: String,
+    val profileImageUrl: String
+) : Parcelable {
 
     companion object {
         @JvmField
         val CREATOR: Parcelable.Creator<User> = object : Parcelable.Creator<User> {
             override fun createFromParcel(source: Parcel): User = source.run {
-                User(readString() ?: "",
+                User(
                     readString() ?: "",
-                    readString() ?: "")
+                    readString() ?: "",
+                    readString() ?: ""
+                )
             }
 
             override fun newArray(size: Int): Array<User?> = arrayOfNulls(size)
@@ -32,5 +36,3 @@ data class User (val id: String,
         }
     }
 }
-
-
